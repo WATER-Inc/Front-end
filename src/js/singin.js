@@ -32,9 +32,10 @@ class SingIn extends React.Component{
         fetch(login, {
             method: "POST",
             mode: "no-cors",
+            connection:"close",
             headers: {
-              Accept: "application/json, text/plain, */*",
-              "Content-Type": "application/json",
+              Accept: "text/plain ",
+              "Content-Type": "text/plain",
             }
           })
             .then((response) => response.json())
