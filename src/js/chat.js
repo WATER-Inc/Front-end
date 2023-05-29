@@ -13,20 +13,24 @@ class Chat extends React.Component {
     }
 
     getMessages = () => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/getmessages");
-        xhr.onload = function () {
-            let tempMessageList = [];
-            const data = JSON.parse(xhr.response);
-            data.forEach(message => tempMessageList.append(message));
-            this.setState({
-                userId: this.state.userId,
+        let login = `http://localhost:8080/water_war/chats`;
+        fetch(login, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              Accept: "text/plain ",
+              "Content-Type": "text/plain",
+            },
+            body:{
                 chatId: this.state.chatId,
-                currentMessage: this.state.currentMessage,
-                messageList: tempMessageList
-            })
-        };
-        xhr.send(JSON.stringify({userId: this.state.userId, chatId: this.state.chatId}));
+            }
+          })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((err) => {
+              console.log(err);
+             });
+        this.formReset();
     }
 
     handleMessage = (event) => {
