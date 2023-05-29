@@ -6,30 +6,30 @@ import wavesPhone from "../resources/phoneSingIn.svg";
 
 class SingUp extends React.Component {
     state = {
-        userName: "",
-        userPassword: "",
-        userPasswordDup: ""
+        username: "",
+        userpassword: "",
+        userpasswordDup: ""
     };
     handleUserNameInput = (event) => {
         this.setState({
-            userName: event.target.value,
-            userPassword: this.state.userPassword,
-            userPasswordDup: this.state.userPasswordDup
+            username: event.target.value,
+            userpassword: this.state.userpaassword,
+            userpasswordDup: this.state.userpasswordDup
         })
     }
 
     handleUserPasswordInput = (event) => {
         this.setState({
-            userName: this.state.userName,
-            userPassword: event.target.value,
-            userPasswordDup: this.state.userPasswordDup
+            username: this.state.username,
+            userpassword: event.target.value,
+            userpasswordDup: this.state.userpasswordDup
         })
     }
     handleUserPasswordDupInput = (event) => {
         this.setState({
-            userName: this.state.userName,
-            userPassword: this.state.userPassword,
-            userPasswordDup: event.target.value
+            username: this.state.username,
+            userpassword: this.state.userpassword,
+            userpasswordDup: event.target.value
         })
     }
 
@@ -41,18 +41,14 @@ class SingUp extends React.Component {
 
     sendData = () => {
         if(this.state.userPassword.localeCompare(this.state.userPasswordDup) === 0) {
-            const login = 'http://localhost:8080/water_war/register';
+            let login = `http://localhost:8080/water_war/register?username=${this.state.username}&userpassword=${this.state.userpassword}`;
         fetch(login, {
             method: "POST",
             mode:"no-cors",
             headers: {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: this.state.userName,
-                userpassword: this.state.userPassword
-            }),
+            }
           })
             .then((response) => response.json())
             .then((data) => console.log(data))
