@@ -5,20 +5,20 @@ import wavesPhone from "../resources/phoneSingIn.svg";
 
 class SingIn extends React.Component{
     state = {
-      userName: "",
-      userPassword: ""
+      username: "",
+      userpassword: ""
     };
     handleUserNameInput = (event) => {
         this.setState({
-            userName: event.target.value,
-            userPassword: this.state.userPassword
+            username: event.target.value,
+            userpassword: this.state.userpassword
         })
     }
 
     handleUserPasswordInput = (event) => {
         this.setState({
-            userName: this.state.userName,
-            userPassword: event.target.value
+            username: this.state.username,
+            userpassword: event.target.value
         })
     }
 
@@ -28,17 +28,23 @@ class SingIn extends React.Component{
     }
 
     sendData = () => {
-        if(this.state.userPassword.localeCompare(this.state.userPasswordDup) === 0) {
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', `https://localhost:8080/water_war/login?username=${this.state.userName}&userpassword=${this.state.userPassword}`);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = () => {
-                console.log(this);
-                // On positive response redirect to 
-            }
-            xhr.send();
-        }else alert("passwords don't match");
+        const login = 'http://localhost:8080/water_war/';
+        fetch(login, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(this.state),
+          })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((err) => {
+              console.log(err);
+             });
         this.formReset();
+
     }
     componentDidMount() {
         const waves = document.getElementById("waves");

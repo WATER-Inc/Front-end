@@ -41,13 +41,24 @@ class SingUp extends React.Component {
 
     sendData = () => {
         if(this.state.userPassword.localeCompare(this.state.userPasswordDup) === 0) {
-            let xhr = new XMLHttpRequest();
-            xhr.open('POST', `https://localhost:8080/water_war/register?username=${this.state.userName}&userpassword=${this.state.userPassword}`);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = () => {
-                console.log(this);
-            }
-            xhr.send();
+            const login = 'http://localhost:8080/water_war/register';
+        fetch(login, {
+            method: "POST",
+            mode:"no-cors",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: this.state.userName,
+                userpassword: this.state.userPassword
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((err) => {
+              console.log(err);
+             });
         }else alert("passwords don't match");
         this.formReset();
     }
