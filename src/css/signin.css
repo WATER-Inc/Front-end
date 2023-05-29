@@ -143,10 +143,11 @@ input::placeholder {
 
 @media only screen and (min-width: 800px){
     #waves{
-        left: 0;
+        height: 100vh;
         top: 0;
         bottom: 0;
-        height: 100vh;
+        right: 50vw;
+
 
     }
     .main-section{

@@ -41,7 +41,7 @@ class SingUp extends React.Component {
 
     sendData = () => {
         if(this.state.userpassword.localeCompare(this.state.userpasswordDup) === 0) {
-            let login = `http://localhost:8080/water_war/register?username=${this.state.username}&userpassword=${this.state.userpassword}`;
+            let login = `http://localhost:8080/water_war/register`;
         fetch(login, {
             method: "POST",
             mode:"no-cors",
@@ -49,7 +49,8 @@ class SingUp extends React.Component {
             headers: {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
-            }
+            },
+            body: JSON.stringify(this.state),
           })
             .then((response) => response.json())
             .then((data) => console.log(data))

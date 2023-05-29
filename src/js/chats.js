@@ -11,18 +11,24 @@ class Chats extends React.Component {
     chatList = [];
 
     getChats = function () {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/getchats");
-        xhr.onload = function () {
-            let tempChatList = [];
-            const data = JSON.parse(xhr.response);
-            data.forEach(chat => tempChatList.append(chat));
-            this.setState({
+        let login = `http://localhost:8080/water_war/chats`;
+        fetch(login, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              Accept: "text/plain ",
+              "Content-Type": "text/plain",
+            },
+            body:{
                 userId: this.state.userId,
-                chats: tempChatList
-            })
-        };
-        xhr.send(JSON.stringify({userId: this.state.userId}));
+            }
+          })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((err) => {
+              console.log(err);
+             });
+        this.formReset();
 
     };
 

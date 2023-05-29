@@ -28,11 +28,10 @@ class SingIn extends React.Component{
     }
 
     sendData = () => {
-        let login = `http://localhost:8080/water_war/login?username=${this.state.username}&userpassword=${this.state.userpassword}`;
+        let login = `http://localhost:8080/water_war/login`;
         fetch(login, {
             method: "POST",
             mode: "no-cors",
-            connection:"close",
             headers: {
               Accept: "text/plain ",
               "Content-Type": "text/plain",
