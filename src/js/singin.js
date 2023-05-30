@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import arrow from "../resources/arrow.png";
 import wavesDesktop from "../resources/desktopSIngIn.svg";
 import wavesPhone from "../resources/phoneSingIn.svg";
@@ -31,16 +31,18 @@ class SingIn extends React.Component{
         let login = `http://localhost:8080/water_war/login`;
         fetch(login, {
             method: "POST",
-            mode: "no-cors",
             headers: {
               Accept: "text/plain ",
               "Content-Type": "text/plain",
-            }
-          })
-            .then((response) => response.json())
-            .then((data) => console.log(data))
-            .catch((err) => {
-              console.log(err);
+            },
+            body:JSON.stringify(this.state)
+          }).then((response) => {
+                console.log(response);
+                console.log(response.body);
+                console.log(response.json());
+          }).catch((err) => {
+                console.log("Catched erroe");
+                console.log(err);
              });
         this.formReset();
 

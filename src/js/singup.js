@@ -13,7 +13,7 @@ class SingUp extends React.Component {
     handleUserNameInput = (event) => {
         this.setState({
             username: event.target.value,
-            userpassword: this.state.userpaassword,
+            userpassword: this.state.userpassword,
             userpasswordDup: this.state.userpasswordDup
         })
     }
@@ -50,7 +50,10 @@ class SingUp extends React.Component {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(this.state),
+            body: JSON.stringify({
+                username: this.state.username,
+                userpassword: this.state.userpassword,
+            }),
           })
             .then((response) => response.json())
             .then((data) => console.log(data))
