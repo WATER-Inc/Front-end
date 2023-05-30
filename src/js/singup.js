@@ -57,10 +57,14 @@ class SingUp extends React.Component {
                 username:this.state.username,
                 userpassword:this.state.userpassword
             })
-          }).then((response) => {
-                console.log(response);
-                console.log(response.body);
-                console.log(response.json());
+          }).then((response) => response.json())
+          .then( data => {
+            if(data!== null){
+                window.location.href = "http://localhost:3000/";
+            }else{
+                alert("Пользователь уже существует!")
+            }
+            return data;
           }).catch((err) => {
                 console.log("Catched erroe");
                 console.log(err);
