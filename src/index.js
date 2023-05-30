@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import * as ReactDOMClient from 'react-dom/client';
 import SingUp from "./js/singup";
 import SingIn from "./js/singin";

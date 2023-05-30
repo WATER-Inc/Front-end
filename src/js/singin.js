@@ -23,6 +23,10 @@ class SingIn extends React.Component{
     }
 
     formReset = () => {
+        this.setState({
+            username: "",
+            userpassword: ""
+        });
         document.getElementById("userName").value = "";
         document.getElementById("password").value = "";
     }
@@ -36,16 +40,22 @@ class SingIn extends React.Component{
               "Content-Type": "text/plain",
             },
             body:JSON.stringify(this.state)
-          }).then((response) => {
-                console.log(response);
-                console.log(response.body);
-                console.log(response.json());
-          }).catch((err) => {
+          })
+          .then((response) => response.json())
+          .then( data => {
+            if(data!== null){
+                window.location.href = "http://localhost:3000/chats";
+            }else{
+                alert("Имя пользователя или пароль не совпадают")
+            }
+            return data;
+          })
+          .catch((err) => {
                 console.log("Catched erroe");
                 console.log(err);
              });
         this.formReset();
-
+    
     }
     componentDidMount() {
         const waves = document.getElementById("waves");

@@ -28,8 +28,6 @@ class Chats extends React.Component {
             .catch((err) => {
               console.log(err);
              });
-        this.formReset();
-
     };
 
     openChat = (element) => {

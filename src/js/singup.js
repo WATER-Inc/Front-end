@@ -34,6 +34,11 @@ class SingUp extends React.Component {
     }
 
     formReset = () => {
+        this.setState({
+            username: "",
+            userpassword: "",
+            userpasswordDup: ""
+        })
         document.getElementById("userName").value = "";
         document.getElementById("password").value = "";
         document.getElementById("password-dup").value = "";
