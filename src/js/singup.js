@@ -44,21 +44,21 @@ class SingUp extends React.Component {
             let login = `http://localhost:8080/water_war/register`;
         fetch(login, {
             method: "POST",
-            mode:"no-cors",
-            connection:"close",
             headers: {
-              Accept: "application/json, text/plain, */*",
-              "Content-Type": "application/json",
+              Accept: "text/plain ",
+              "Content-Type": "text/plain",
             },
-            body: JSON.stringify({
-                username: this.state.username,
-                userpassword: this.state.userpassword,
-            }),
-          })
-            .then((response) => response.json())
-            .then((data) => console.log(data))
-            .catch((err) => {
-              console.log(err);
+            body:JSON.stringify({
+                username:this.state.username,
+                userpassword:this.state.userpassword
+            })
+          }).then((response) => {
+                console.log(response);
+                console.log(response.body);
+                console.log(response.json());
+          }).catch((err) => {
+                console.log("Catched erroe");
+                console.log(err);
              });
         }else alert("passwords don't match");
         this.formReset();
