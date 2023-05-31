@@ -32,22 +32,34 @@ class SingIn extends React.Component{
     }
 
     sendData = () => {
+        let username = this.state.username;
+        let userpassword = this.state.userpassword;
+
         let login = `http://localhost:8080/water_war/login`;
         fetch(login, {
             method: "POST",
+            mode: 'cors',
+            credentials: 'include',
             headers: {
               Accept: "text/plain ",
               "Content-Type": "text/plain",
             },
             body:JSON.stringify(this.state)
           })
-          .then((response) => response.json())
+          .then((response) => {
+            // console.log(document.cookie);
+            // console.log(response);
+            // response.headers.forEach(function(val, key) { console.log(key + ' -> ' + val); });
+            // console.log(response.headers.get("Set-Cookie"));
+            return response.json();
+          })
           .then( data => {
-            if(data!== null){
-                window.location.href = "http://localhost:3000/chats";
-            }else{
-                alert("Имя пользователя или пароль не совпадают")
-            }
+            console.log(data);
+            // if(data!== null){
+            //     window.location.href = "http://localhost:3000/chats";
+            // }else{
+            //     alert("Имя пользователя или пароль не совпадают")
+            // }
             return data;
           })
           .catch((err) => {

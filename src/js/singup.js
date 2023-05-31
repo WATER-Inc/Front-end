@@ -57,7 +57,11 @@ class SingUp extends React.Component {
                 username:this.state.username,
                 userpassword:this.state.userpassword
             })
-          }).then((response) => response.json())
+          }).then((response) => {
+            const cookies = document.cookie;
+            console.log("Cookies:" + toString(cookies));
+            return response.json()
+          })
           .then( data => {
             if(data!== null){
                 window.location.href = "http://localhost:3000/";
