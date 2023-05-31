@@ -3,6 +3,7 @@ import arrow from "../resources/arrow.png";
 import wavesDesktop from "../resources/desktopSIngIn.svg";
 import wavesPhone from "../resources/phoneSingIn.svg";
 
+
 class SingIn extends React.Component{
     state = {
       username: "",
@@ -46,20 +47,15 @@ class SingIn extends React.Component{
             },
             body:JSON.stringify(this.state)
           })
-          .then((response) => {
-            // console.log(document.cookie);
-            // console.log(response);
-            // response.headers.forEach(function(val, key) { console.log(key + ' -> ' + val); });
-            // console.log(response.headers.get("Set-Cookie"));
-            return response.json();
-          })
+          .then((response) => 
+            response.json()
+          )
           .then( data => {
-            console.log(data);
-            // if(data!== null){
-            //     window.location.href = "http://localhost:3000/chats";
-            // }else{
-            //     alert("Имя пользователя или пароль не совпадают")
-            // }
+            if(data!== null){
+                window.location.href = "/chats";
+            }else{
+                alert("Имя пользователя или пароль не совпадают")
+            }
             return data;
           })
           .catch((err) => {

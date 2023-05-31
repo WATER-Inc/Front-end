@@ -13,14 +13,12 @@ class Chats extends React.Component {
     getChats = function () {
         let login = `http://localhost:8080/water_war/chats`;
         fetch(login, {
-            method: "POST",
+            method: "GET",
             mode: "no-cors",
+            credentials: "include",
             headers: {
               Accept: "text/plain ",
               "Content-Type": "text/plain",
-            },
-            body:{
-                userId: this.state.userId,
             }
           })
             .then((response) => response.json())
