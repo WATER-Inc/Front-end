@@ -4,17 +4,18 @@ import ChatLink from "./components/chatlink";
 import styles from "../css/chats.css";
 
 class Chats extends React.Component {
-    state = {
-        userId: "",
-        chats: []
-    }
     chatList = [];
+
+    openChat = (element) => {
+        localStorage.setItem("chatId",element.target.getAttribute("id"));
+        window.location.href = "/chat";
+    }
 
     getChats = function () {
         let login = `http://localhost:8080/water_war/chats`;
         fetch(login, {
             method: "GET",
-            mode: "no-cors",
+            mode: "cors",
             credentials: "include",
             headers: {
               Accept: "text/plain ",
@@ -22,27 +23,20 @@ class Chats extends React.Component {
             }
           })
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+                this.chatList = data.map(element => 
+                    <ChatLink key={element.id} chatId={element.id} chatName={element.name}
+                    onClick={this.openChat}/>
+                );
+                this.forceUpdate();
+            })
             .catch((err) => {
-              console.log(err);
+              console.log("Error: " + err);
              });
     };
 
-    openChat = (element) => {
-        let id = element.getAttribute("chatId");
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/chat");
-        xhr.send(JSON.stringify({chatId: id}));
-
-    }
-
     componentDidMount() {
         this.getChats();
-        this.chatList = this.state.chats.map(chat => {
-                return <ChatLink chatId={chat.chatId} chatName={chat.chatName} chatLastMessage={chat.lastMessage}
-                                 onClick={this.openChat}/>;
-            }
-        )
     }
 
     render() {

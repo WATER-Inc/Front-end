@@ -8,65 +8,90 @@ class Chat extends React.Component {
     state = {
         userId: "",
         chatId: "",
-        currentMessage: "",
-        messageList: []
+        message: "",
     }
 
+    messageList = [];
+
     getMessages = () => {
-        let login = `http://localhost:8080/water_war/chats`;
+        let login = `http://localhost:8080/water_war/chat`;
         fetch(login, {
             method: "POST",
-            mode: "no-cors",
+            mode: "cors",
+            credentials: "include",
             headers: {
               Accept: "text/plain ",
               "Content-Type": "text/plain",
             },
-            body:{
-                chatId: this.state.chatId,
-            }
+            body:JSON.stringify({
+                chatId: localStorage.getItem("chatId")
+            })
           })
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+                
+               this.messageList = data.map(el =>{
+                    let sender = el.sender;
+                    let content = el.content;
+                    return <Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content}/>
+               })
+               this.forceUpdate();
+            })
             .catch((err) => {
               console.log(err);
              });
-        this.formReset();
     }
 
     handleMessage = (event) => {
         this.setState({
             userId: this.state.userId,
             chatId: this.state.chatId,
-            currentMessage: event.target.value,
-            messageList: this.state.messageList
+            message: event.target.value
         })
     }
 
     sendMessage = () => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:8080/sendmessage");
-        xhr.send(JSON.stringify({
-            userId: this.state.userId,
-            chatId: this.state.chatId,
-            message: this.state.currentMessage
-        }));
-        this.messageList.append(<Message from="my" name={this.userName} messageText={this.state.currentMessage}/>);
-        this.setState({
-            userId: this.state.userId,
-            chatId: this.state.chatId,
-            currentMessage: "",
-            messageList: this.state.messageList
-        })
-        this.forceUpdate();
+        let login = `http://localhost:8080/water_war/message`;
+        fetch(login, {
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+              Accept: "text/plain ",
+              "Content-Type": "text/plain",
+            },
+            body:JSON.stringify(this.state)
+          })
+            .then((response) => response.json())
+            .then((data) => {
+                if(data!=null){
+                        data.foreach (el=>{
+                            let sender = el.sender;
+                            let content = el.content;
+                            this.messageList.push(<Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content}/>
+                            )
+                        })
+
+                    this.forceUpdate();
+                }
+                this.setState({
+                    userId: localStorage.getItem("userId"),
+                    chatId: localStorage.getItem("chatId"),
+                    message: "",
+                })
+            })
+            .catch((err) => {
+              console.log(err);
+             });
     }
 
     componentDidMount() {
+        this.setState({
+            userId: localStorage.getItem("userId"),
+            chatId: localStorage.getItem("chatId"),
+            message: "",
+        })
         this.getMessages();
-        this.messageList = this.state.messageList.map(message => {
-                return <Message from={message.from == this.userId ? "my" : "from"} name={message.username}
-                                messageText={message.text}/>;
-            }
-        )
     }
 
     render() {
@@ -79,10 +104,10 @@ class Chat extends React.Component {
                 {this.messageList}
             </div>
             <div className="message-input">
-                <form className="wrapper row-wrapper">
+                <div className="wrapper row-wrapper">
                     <input type="text" placeholder="Text.." name="text" onChange={this.handleMessage}/>
-                    <button type="submit" onSubmit={this.sendMessage}><img src={sendIcon}/></button>
-                </form>
+                    <button type="submit" onClick={this.sendMessage}><img src={sendIcon}/></button>
+                </div>
             </div>
         </div>
     }

@@ -88,7 +88,7 @@ p{
 }
 
 /* message-input*/
-.message-input > form{
+.message-input > div{
     position: fixed;
     width: min(90vw,800px);
     height: 75px;
@@ -99,7 +99,7 @@ p{
     border-radius: 20px;
     justify-content: space-around;
 }
-.message-input > form > input{
+.message-input > div > input{
     font-family: Roboto, Arial, sans-serif;
     font-size: 30px;
     color: #3F52B3;
@@ -107,7 +107,7 @@ p{
     border: none;
 }
 
-.message-input > form > button{
+.message-input > div > button{
     background-color: white;
     outline: none;
     border: none;

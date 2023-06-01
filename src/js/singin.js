@@ -33,13 +33,10 @@ class SingIn extends React.Component{
     }
 
     sendData = () => {
-        let username = this.state.username;
-        let userpassword = this.state.userpassword;
-
         let login = `http://localhost:8080/water_war/login`;
         fetch(login, {
             method: "POST",
-            mode: 'cors',
+            mode:"cors",
             credentials: 'include',
             headers: {
               Accept: "text/plain ",
@@ -52,6 +49,7 @@ class SingIn extends React.Component{
           )
           .then( data => {
             if(data!== null){
+                localStorage.setItem("userId",data.id);
                 window.location.href = "/chats";
             }else{
                 alert("Имя пользователя или пароль не совпадают")

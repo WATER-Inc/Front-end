@@ -49,6 +49,8 @@ class SingUp extends React.Component {
             let login = `http://localhost:8080/water_war/register`;
         fetch(login, {
             method: "POST",
+            mode:"cors",
+            credentials:"include",
             headers: {
               Accept: "text/plain ",
               "Content-Type": "text/plain",
