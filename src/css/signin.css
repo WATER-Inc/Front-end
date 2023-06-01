@@ -14,9 +14,6 @@ button{
     border: none;
     background: none;
 }
-body{
-    overflow: hidden;
-}
 /* WRAPPERS */
 .wrapper{
     display: flex;
