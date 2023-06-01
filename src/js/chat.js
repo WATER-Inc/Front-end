@@ -51,6 +51,7 @@ class Chat extends React.Component {
     }
 
     sendMessage = () => {
+        let input = document.getElementById("message-input");
         let login = `http://localhost:8080/water_war/message`;
         fetch(login, {
             method: "POST",
@@ -65,13 +66,11 @@ class Chat extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 if(data!=null){
-                        data.foreach (el=>{
-                            let sender = el.sender;
-                            let content = el.content;
-                            this.messageList.push(<Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content}/>
-                            )
-                        })
-
+                    let el = data;
+                    let sender = el.sender;
+                    let content = el.content;
+                    this.messageList.push(<Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content}/>)
+                    input.value = "";
                     this.forceUpdate();
                 }
                 this.setState({
@@ -105,7 +104,7 @@ class Chat extends React.Component {
             </div>
             <div className="message-input">
                 <div className="wrapper row-wrapper">
-                    <input type="text" placeholder="Text.." name="text" onChange={this.handleMessage}/>
+                    <input id="message-input" type="text" placeholder="Text.." name="text" onChange={this.handleMessage}/>
                     <button type="submit" onClick={this.sendMessage}><img src={sendIcon}/></button>
                 </div>
             </div>
