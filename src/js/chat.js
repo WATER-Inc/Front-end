@@ -96,7 +96,7 @@ class Chat extends React.Component {
     render() {
         return <div className="wrapper main-wrapper">
             <div className="wrapper row-wrapper header">
-                <a className="arrow"><img src={returnIcon}/></a>
+                <a className="arrow" href="/chats"><img src={returnIcon}/></a>
                 <p className="chat-name">Name</p>
             </div>
             <div className="wrapper column-wrapper message-list">

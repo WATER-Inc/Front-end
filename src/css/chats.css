@@ -46,6 +46,10 @@ p{
 
 /* CHAT LIST*/
 
+.button-wrapper{
+    justify-content: space-around;
+}
+
 .chat-list{
     background-color: #5E79D1;
     min-height: 100vh;
@@ -70,6 +74,10 @@ p{
 }
 .chat-link{
     border-bottom: 2px solid white;
+}
+
+.lastMessageDate{
+    color:#5E79D1;
 }
 
 /* Footer */
