@@ -4,6 +4,9 @@ import styles from "../css/signin.css";
 import wavesDesktop from "../resources/desktopSIngIn.svg";
 import wavesPhone from "../resources/phoneSingIn.svg";
 
+const ServerUrl = "http://localhost:8080/water_war/water";
+
+
 class SingUp extends React.Component {
     state = {
         username: "",
@@ -46,8 +49,8 @@ class SingUp extends React.Component {
 
     sendData = () => {
         if(this.state.userpassword.localeCompare(this.state.userpasswordDup) === 0) {
-            let login = `http://localhost:8080/water_war/register`;
-        fetch(login, {
+            let url = ServerUrl + '/register';
+        fetch(url, {
             method: "POST",
             mode:"cors",
             credentials:"include",

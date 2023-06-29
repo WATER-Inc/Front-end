@@ -3,6 +3,9 @@ import searchIcon from "../resources/icons8-find-67.png"
 import ChatLink from "./components/chatlink";
 import styles from "../css/chats.css";
 
+const ServerUrl = "http://localhost:8080/water_war/water";
+
+
 class Chats extends React.Component {
     chatList = [];
 
@@ -12,7 +15,7 @@ class Chats extends React.Component {
     }
 
     getChats = function () {
-        let login = `http://localhost:8080/water_war/chats`;
+        let login = `http://localhost:8080/water_war/water/chats`;
         fetch(login, {
             method: "GET",
             mode: "cors",

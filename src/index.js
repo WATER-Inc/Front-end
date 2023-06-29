@@ -5,6 +5,7 @@ import SingUp from "./js/singup";
 import SingIn from "./js/singin";
 import Chat from "./js/chat";
 import Chats from "./js/chats";
+import Test from "./js/test";
 
 const container = document.getElementById('root');
 const root = ReactDOMClient.createRoot(container);
@@ -17,6 +18,7 @@ export default function App() {
                 <Route path="/singup" element={<SingUp/>}/>
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/chats" element={<Chats/>}/>
+                <Route path="/test" element={<Test/>}/>
             </Routes>
         </BrowserRouter>
     );

@@ -4,6 +4,9 @@ import sendIcon from "../resources/icons8-email-send-60.png"
 import returnIcon from "../resources/icons8-double-left-48.png"
 import Message from "./components/message";
 
+
+const ServerUrl = "http://localhost:8080/water_war/water";
+
 class Chat extends React.Component {
     state = {
         userId: "",
@@ -14,8 +17,8 @@ class Chat extends React.Component {
     messageList = [];
 
     getMessages = () => {
-        let login = `http://localhost:8080/water_war/chat`;
-        fetch(login, {
+        let url = ServerUrl + '/chat';
+        fetch(url, {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -33,7 +36,8 @@ class Chat extends React.Component {
                this.messageList = data.map(el =>{
                     let sender = el.sender;
                     let content = el.content;
-                    return <Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content}/>
+                    let date = el.date;
+                    return <Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content} messageDate={date}/>
                })
                this.forceUpdate();
             })
@@ -52,8 +56,8 @@ class Chat extends React.Component {
 
     sendMessage = () => {
         let input = document.getElementById("message-input");
-        let login = `http://localhost:8080/water_war/message`;
-        fetch(login, {
+        let url = ServerUrl + '/message';
+        fetch(url, {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -80,8 +84,13 @@ class Chat extends React.Component {
                 })
             })
             .catch((err) => {
-              console.log(err);
+                window.location.href = "/";
+                console.log("Erorr \n" + err);
              });
+    }
+
+    messageWebSocketUpdater(){
+        //
     }
 
     componentDidMount() {

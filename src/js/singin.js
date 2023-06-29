@@ -3,6 +3,8 @@ import arrow from "../resources/arrow.png";
 import wavesDesktop from "../resources/desktopSIngIn.svg";
 import wavesPhone from "../resources/phoneSingIn.svg";
 
+const ServerUrl = "http://localhost:8080/water_war/water";
+
 
 class SingIn extends React.Component{
     state = {
@@ -33,8 +35,8 @@ class SingIn extends React.Component{
     }
 
     sendData = () => {
-        let login = `http://localhost:8080/water_war/login`;
-        fetch(login, {
+        let url =  ServerUrl + '/login';
+        fetch(url, {
             method: "POST",
             mode:"cors",
             credentials: 'include',
