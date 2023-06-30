@@ -29,7 +29,7 @@ class Chats extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 this.chatList = data.map(element => 
-                    <ChatLink key={element.id} chatId={element.id} chatName={element.name} chatLastMessageDate={Date(element.lastMessageDate)}
+                    <ChatLink key={element.id} chatId={element.id} chatName={element.name} chatLastMessageDate={new Date(element.lastMessageDate).toString()}
                     onClick={this.openChat}/>
                 );
                 this.forceUpdate();
