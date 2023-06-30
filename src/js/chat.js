@@ -12,7 +12,6 @@ class Chat extends React.Component {
         userId: "",
         chatId: "",
         message: "",
-        lastMessageDate: 0
     }
 
     messageList = [];
@@ -60,8 +59,7 @@ class Chat extends React.Component {
         this.setState({
             userId: this.state.userId,
             chatId: this.state.chatId,
-            message: event.target.value,
-            lastMessageDate: this.state.lastMessageDate
+            message: event.target.value
         })
     }
 
@@ -90,8 +88,7 @@ class Chat extends React.Component {
                 this.setState({
                     userId: localStorage.getItem("userId"),
                     chatId: localStorage.getItem("chatId"),
-                    message: "",
-                    lastMessageDate: this.state.lastMessageDate
+                    message: ""
                 })
                 this.forceUpdate();
             })
@@ -106,11 +103,11 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
+        localStorage.setItem("lastMessageDate",0);
         this.setState({
             userId: localStorage.getItem("userId"),
             chatId: localStorage.getItem("chatId"),
-            message: "",
-            lastMessageDate: this.state.lastMessageDate
+            message: ""
         })
         this.getMessages();
     }
