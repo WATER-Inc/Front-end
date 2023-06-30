@@ -10,6 +10,7 @@ class Chats extends React.Component {
     chatList = [];
 
     openChat = (element) => {
+        localStorage.setItem("lastMessageDate",0);
         localStorage.setItem("chatId",element.target.getAttribute("id"));
         window.location.href = "/chat";
     }

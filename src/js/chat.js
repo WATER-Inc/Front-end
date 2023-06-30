@@ -12,6 +12,7 @@ class Chat extends React.Component {
         userId: "",
         chatId: "",
         message: "",
+        lastMessageDate: 0
     }
 
     messageList = [];
@@ -23,23 +24,31 @@ class Chat extends React.Component {
             mode: "cors",
             credentials: "include",
             headers: {
-              Accept: "text/plain ",
+              Accept: "text/plain",
               "Content-Type": "text/plain",
             },
             body:JSON.stringify({
-                chatId: localStorage.getItem("chatId")
+                chatId: localStorage.getItem("chatId"),
+                lastMessageDate: this.state.lastMessageDate
             })
           })
             .then((response) => response.json())
             .then((data) => {
-                
-               this.messageList = data.map(el =>{
+                console.log("Last message " + this.state.lastMessageDate);
+                data.map(el =>{
                     let sender = el.sender;
                     let content = el.content;
                     let date = el.date;
-                    return <Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content} messageDate={date}/>
+                    this.messageList.push(<Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content} messageDate={date}/>)
+               })
+               this.setState({
+                    userId: this.state.userId,
+                    chatId: this.state.chatId,
+                    message: this.state.message,
+                    lastMessageDate: this.messageList[this.messageList.length-1].date
                })
                this.forceUpdate();
+               //this.getMessages();
             })
             .catch((err) => {
               console.log(err);
@@ -50,7 +59,8 @@ class Chat extends React.Component {
         this.setState({
             userId: this.state.userId,
             chatId: this.state.chatId,
-            message: event.target.value
+            message: event.target.value,
+            lastMessageDate: this.state.lastMessageDate
         })
     }
 
@@ -75,13 +85,14 @@ class Chat extends React.Component {
                     let content = el.content;
                     this.messageList.push(<Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content}/>)
                     input.value = "";
-                    this.forceUpdate();
                 }
                 this.setState({
                     userId: localStorage.getItem("userId"),
                     chatId: localStorage.getItem("chatId"),
                     message: "",
+                    lastMessageDate: this.state.lastMessageDate
                 })
+                this.forceUpdate();
             })
             .catch((err) => {
                 window.location.href = "/";
@@ -98,10 +109,10 @@ class Chat extends React.Component {
             userId: localStorage.getItem("userId"),
             chatId: localStorage.getItem("chatId"),
             message: "",
+            lastMessageDate: this.state.lastMessageDate
         })
         this.getMessages();
     }
-
     render() {
         return <div className="wrapper main-wrapper">
             <div className="wrapper row-wrapper header">
