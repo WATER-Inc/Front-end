@@ -29,26 +29,27 @@ class Chat extends React.Component {
             },
             body:JSON.stringify({
                 chatId: localStorage.getItem("chatId"),
-                lastMessageDate: this.state.lastMessageDate
+                lastMessageDate: localStorage.getItem("lastMessageDate")
             })
           })
             .then((response) => response.json())
             .then((data) => {
-                console.log("Last message " + this.state.lastMessageDate);
+                console.log(data);
+                console.log("Last message " + localStorage.getItem("lastMessageDate"));
                 data.map(el =>{
                     let sender = el.sender;
                     let content = el.content;
                     let date = el.date;
+                    localStorage.setItem("lastMessageDate",el.date);
                     this.messageList.push(<Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content} messageDate={date}/>)
                })
                this.setState({
                     userId: this.state.userId,
                     chatId: this.state.chatId,
                     message: this.state.message,
-                    lastMessageDate: this.messageList[this.messageList.length-1].date
                })
                this.forceUpdate();
-               //this.getMessages();
+               this.getMessages();
             })
             .catch((err) => {
               console.log(err);
