@@ -15,8 +15,30 @@ class Chats extends React.Component {
         window.location.href = "/chat";
     }
 
+    logOut = () => {
+        let logout = ServerUrl + '/logout';
+        fetch(logout, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+              Accept: "text/plain ",
+              "Content-Type": "text/plain",
+            }
+          })
+            .then((response) => {
+                localStorage.setItem("lastMessageDate",0);
+                localStorage.setItem("chatId",-1);
+                localStorage.setItem("userId",-1);
+                window.location.href = "/";
+            })
+            .catch((err) => {
+              console.log("Error: " + err);
+        });
+    }
+
     getChats = function () {
-        let login = `http://localhost:8080/water_war/water/chats`;
+        let login = ServerUrl + '/chats';
         fetch(login, {
             method: "GET",
             mode: "cors",
@@ -39,12 +61,17 @@ class Chats extends React.Component {
              });
     };
 
+
+
     componentDidMount() {
         this.getChats();
     }
 
     render() {
         return <div>
+            <div className="logout">
+                <button id="logout" onClick={this.logOut}>Log Out</button>
+            </div>
             <div className="search-bar">
                 <form className="wrapper row-wrapper">
                     <input type="text" placeholder="Search.." name="search"/>
