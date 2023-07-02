@@ -30,29 +30,28 @@ class Chat extends React.Component {
                 chatId: localStorage.getItem("chatId"),
                 lastMessageDate: localStorage.getItem("lastMessageDate")
             })
-          })
-            .then((response) => response.json())
-            .then((data) => {
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if(data!=null){
                 console.log(data);
-                console.log("Last message " + localStorage.getItem("lastMessageDate"));
+                console.log("Last message " + new Date(localStorage.getItem("lastMessageDate")).toString());
                 data.map(el =>{
-                    let sender = el.sender;
-                    let content = el.content;
-                    let date = el.date;
                     localStorage.setItem("lastMessageDate",el.date);
-                    this.messageList.push(<Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content} messageDate={date}/>)
-               })
-               this.setState({
+                    this.messageList.push(<Message key={el.id} from={el.sender.id == this.state.userId? "my" : "from"} name={el.sender.id == this.state.userId?  "" : el.sender.username} messageText={el.content} messageDate={el.date}/>)
+                })
+                this.setState({
                     userId: this.state.userId,
                     chatId: this.state.chatId,
                     message: this.state.message,
-               })
-               this.forceUpdate();
-               this.getMessages();
-            })
-            .catch((err) => {
-              console.log(err);
-             });
+                })
+                this.forceUpdate();
+                this.getMessages();
+            }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
     handleMessage = (event) => {
@@ -79,18 +78,14 @@ class Chat extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 if(data!=null){
-                    let el = data;
-                    let sender = el.sender;
-                    let content = el.content;
-                    this.messageList.push(<Message key={el.id} from={sender.id == this.state.userId? "my" : "from"} name={sender.id == this.state.userId?  "" : sender.username} messageText={content}/>)
                     input.value = "";
+                    this.setState({
+                        userId: localStorage.getItem("userId"),
+                        chatId: localStorage.getItem("chatId"),
+                        message: ""
+                    })
+                    this.forceUpdate();
                 }
-                this.setState({
-                    userId: localStorage.getItem("userId"),
-                    chatId: localStorage.getItem("chatId"),
-                    message: ""
-                })
-                this.forceUpdate();
             })
             .catch((err) => {
                 window.location.href = "/";

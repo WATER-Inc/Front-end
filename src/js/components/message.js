@@ -8,7 +8,7 @@ class Message extends React.Component{
                     <p>{this.props.name}</p>
                 </div>
                 <p className="message-text">{this.props.messageText}</p>
-                <p className="message-text">{Date(this.props.messageDate)}</p>
+                <p className="message-text">{new Date(this.props.messageDate).toString()}</p>
             </div>
         </div>
     }
