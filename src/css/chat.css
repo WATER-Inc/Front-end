@@ -19,6 +19,12 @@ p{
     flex-direction: row;
 }
 
+.top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 /* message block*/
 .message-list{
     background-color: #E0E5F8;

@@ -12,6 +12,7 @@ class Chats extends React.Component {
     openChat = (element) => {
         localStorage.setItem("lastMessageDate",0);
         localStorage.setItem("chatId",element.target.getAttribute("id"));
+        localStorage.setItem("chatName",element.target.getAttribute("name"))
         window.location.href = "/chat";
     }
 
@@ -35,6 +36,10 @@ class Chats extends React.Component {
             .catch((err) => {
               console.log("Error: " + err);
         });
+    }
+
+    createChat = () => {
+        window.location.href = "/createChat"
     }
 
     getChats = function () {
@@ -69,8 +74,9 @@ class Chats extends React.Component {
 
     render() {
         return <div>
-            <div className="logout">
+            <div className="top">
                 <button id="logout" onClick={this.logOut}>Log Out</button>
+                <button id="create-chat" onClick={this.createChat}>Create Chat</button>
             </div>
             <div className="search-bar">
                 <form className="wrapper row-wrapper">

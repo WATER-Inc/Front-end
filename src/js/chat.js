@@ -38,7 +38,7 @@ class Chat extends React.Component {
                 console.log("Last message " + new Date(localStorage.getItem("lastMessageDate")).toString());
                 data.map(el =>{
                     localStorage.setItem("lastMessageDate",el.date);
-                    this.messageList.push(<Message key={el.id} from={el.sender.id == this.state.userId? "my" : "from"} name={el.sender.id == this.state.userId?  "" : el.sender.username} messageText={el.content} messageDate={el.date}/>)
+                    this.messageList.unshift(<Message key={el.id} from={el.sender.id == this.state.userId? "my" : "from"} name={el.sender.id == this.state.userId?  "" : el.sender.username} messageText={el.content} messageDate={el.date}/>)
                 })
                 this.setState({
                     userId: this.state.userId,
@@ -110,7 +110,7 @@ class Chat extends React.Component {
         return <div className="wrapper main-wrapper">
             <div className="wrapper row-wrapper header">
                 <a className="arrow" href="/chats"><img src={returnIcon}/></a>
-                <p className="chat-name">Name</p>
+                <p className="chat-name">{localStorage.getItem("chatName")}</p>
             </div>
             <div className="wrapper column-wrapper message-list">
                 {this.messageList}
