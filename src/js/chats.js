@@ -7,7 +7,10 @@ const ServerUrl = "http://localhost:8080/water_war/water";
 
 
 class Chats extends React.Component {
-    chatList = [];
+    state = {
+        chatList: [],
+        searchText: ""
+    }
 
     openChat = (element) => {
         localStorage.setItem("lastMessageDate",0);
@@ -38,6 +41,12 @@ class Chats extends React.Component {
         });
     }
 
+    searchHandler = (event) => {
+        this.setState({
+            searchText: event.target.value
+        })
+    }
+
     createChat = () => {
         window.location.href = "/createChat"
     }
@@ -55,10 +64,11 @@ class Chats extends React.Component {
           })
             .then((response) => response.json())
             .then((data) => {
-                this.chatList = data.map(element => 
+                this.setState({chatList: data.map(element => 
                     <ChatLink key={element.id} chatId={element.id} chatName={element.name} chatLastMessageDate={new Date(element.lastMessageDate).toString()}
                     onClick={this.openChat}/>
-                );
+                    )
+                })
                 this.forceUpdate();
             })
             .catch((err) => {
@@ -74,18 +84,19 @@ class Chats extends React.Component {
 
     render() {
         return <div>
-            <div className="top">
-                <button id="logout" onClick={this.logOut}>Log Out</button>
-                <button id="create-chat" onClick={this.createChat}>Create Chat</button>
-            </div>
             <div className="search-bar">
                 <form className="wrapper row-wrapper">
-                    <input type="text" placeholder="Search.." name="search"/>
+                    <input type="text" placeholder="Search.." name="search" onChange={this.searchHandler}/>
                     <button type="submit"><img src={searchIcon}/></button>
                 </form>
             </div>
             <div className="wrapper column-wrapper chat-list">
-                {this.chatList}
+                {this.state.chatList.filter(el => {
+                    return (el.props.chatName.indexOf(this.state.searchText) == 0)
+                })}
+            </div>
+            <div className="menu-section">
+
             </div>
         </div>
     }
