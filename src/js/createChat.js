@@ -1,4 +1,5 @@
 import React from "react";
+import { json } from "react-router-dom";
 // import styles from "../css/create.css";
 
 const ServerUrl = "http://localhost:8080/water_war/water";
@@ -6,18 +7,37 @@ const ServerUrl = "http://localhost:8080/water_war/water";
 class CreateChat extends React.Component {
     state = {
         userId: "",
-        chatId: "",
-        message: "",
+        chatName:""
     }
 
-    messageList = [];
-
-    handleMessage = (event) => {
+    chatNameHandler = (event) => {
         this.setState({
-            userId: this.state.userId,
-            chatId: this.state.chatId,
-            message: event.target.value
+            chatName: event.target.value,
         })
+    }
+
+    createChat = () => {
+        let url =  ServerUrl + '/chat-create';
+        fetch(url, {
+            method: "POST",
+            mode:"cors",
+            credentials: 'include',
+            headers: {
+              Accept: "text/plain ",
+              "Content-Type": "text/plain",
+            },
+            body:JSON.stringify(this.state)
+          })
+          .then((response) => 
+            response.json()
+          )
+          .then( data => {
+            console.log(data)
+          })
+          .catch((err) => {
+                console.log("Catched erroe");
+                console.log(err);
+             });
     }
 
     messageWebSocketUpdater(){
@@ -25,26 +45,18 @@ class CreateChat extends React.Component {
     }
 
     componentDidMount() {
-        localStorage.setItem("lastMessageDate",0);
         this.setState({
             userId: localStorage.getItem("userId"),
-            chatId: localStorage.getItem("chatId"),
-            message: ""
         })
     }
     render() {
         return <div className="wrapper main-wrapper">
-            <div className="wrapper row-wrapper header">
-                <p className="chat-name">{localStorage.getItem("chatName")}</p>
-            </div>
-            <div className="wrapper column-wrapper message-list">
-                {this.messageList}
-            </div>
-            <div className="message-input">
-                <div className="wrapper row-wrapper">
-                    <input id="message-input" type="text" placeholder="Text.." name="text" onChange={this.handleMessage}/>
-                </div>
-            </div>
+                <input id="chat-name" onChange={this.chatNameHandler}>
+
+                </input>
+                <button onClick={this.createChat}>
+                    Create
+                </button>
         </div>
     }
 }
