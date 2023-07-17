@@ -1,0 +1,56 @@
+/* GLOBAL STYLES */
+*{
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+}
+
+button{
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+/* PAGE */
+
+.page{
+    height: 100vh;
+    width: 100vw;
+}
+
+/* NAMED STYLES */
+
+.center{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.absolute{
+    position: absolute;
+}
+
+.relative{
+    position: relative;
+}
+
+.invis{
+    display: none;
+}
+
+/* FLEX-WRAPPER */
+
+.wrapper{
+    display: flex;
+}
+
+.column-wrapper{
+    flex-direction: column;
+}
+
+.row-wrapper{
+    flex-direction: row;
+}
