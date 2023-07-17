@@ -2,8 +2,10 @@ import React from "react";
 import arrow from "../resources/arrow.png";
 import wavesDesktop from "../resources/desktopSIngIn.svg";
 import wavesPhone from "../resources/phoneSingIn.svg";
+import HttpRequestSender from "./classes/HttpRequestSender";
+import Page from "./components/page";
+import "../css/singin.css";
 
-const ServerUrl = "http://localhost:8080/water_war/water";
 
 
 class SingIn extends React.Component{
@@ -35,33 +37,13 @@ class SingIn extends React.Component{
     }
 
     sendData = () => {
-        let url =  ServerUrl + '/login';
-        fetch(url, {
-            method: "POST",
-            mode:"cors",
-            credentials: 'include',
-            headers: {
-              Accept: "text/plain ",
-              "Content-Type": "text/plain",
-            },
-            body:JSON.stringify(this.state)
-          })
-          .then((response) => 
-            response.json()
-          )
-          .then( data => {
+        HttpRequestSender.sendRequest("POST","/login",this.state)
+        .then((data)=>{
             if(data!== null){
                 localStorage.setItem("userId",data.id);
                 window.location.href = "/chats";
-            }else{
-                alert("Имя пользователя или пароль не совпадают")
-            }
-            return data;
-          })
-          .catch((err) => {
-                console.log("Catched erroe");
-                console.log(err);
-             });
+            }else alert("Имя пользователя или пароль не совпадают")
+        })
         this.formReset();
     
     }
@@ -73,7 +55,7 @@ class SingIn extends React.Component{
         }else  waves.src=wavesPhone;
         window.addEventListener("resize", () => {
             let width = document.body.offsetWidth;
-            if(width != prevWidth){
+            if(width !== prevWidth){
                 prevWidth = width;
                 if(width > 801){
                     waves.src=wavesDesktop;
@@ -82,27 +64,31 @@ class SingIn extends React.Component{
         })
     }
     render(){
-        return <div className="wrapper main-wrapper">
-            <img id="waves" src={wavesDesktop}/>
-            <div className="wrapper column-wrapper main-section">
-                <h3 className="water">WATER</h3>
-                <div className="wrapper column-wrapper input-section">
-                    <div className="wrapper column-wrapper input-wrapper">
-                        <input id="userName" type="text" placeholder="Name" onChange={this.handleUserNameInput}/>
-                        <input id="password" type="password" placeholder="Password" onChange={this.handleUserPasswordInput}/>
+        return <>
+        <Page className="login">
+            <div className="wrapper main-wrapper">
+                <img id="waves" src={wavesDesktop}/>
+                <div className="wrapper column-wrapper main-section">
+                    <h3 className="water">WATER</h3>
+                    <div className="wrapper column-wrapper input-section">
+                        <div className="wrapper column-wrapper input-wrapper">
+                            <input id="userName" type="text" placeholder="Name" onChange={this.handleUserNameInput}/>
+                            <input id="password" type="password" placeholder="Password" onChange={this.handleUserPasswordInput}/>
+                        </div>
                     </div>
-                </div>
-                <div className="wrapper row-wrapper submit-section">
-                    <div className="wrapper column-wrapper sign-button-block">
-                        <p className="link big-link">Sing In</p>
-                        <a className="link small-link" href="/singup">Sing Up</a>
-                    </div>
-                    <div className="submit-wrapper">
-                        <button className="submit" onClick={this.sendData}><img src={arrow}/></button>
+                    <div className="wrapper row-wrapper submit-section">
+                        <div className="wrapper column-wrapper sign-button-block">
+                            <p className="link big-link">Sing In</p>
+                            <a className="link small-link" href="/singup">Sing Up</a>
+                        </div>
+                        <div className="submit-wrapper">
+                            <button className="submit" onClick={this.sendData}><img src={arrow}/></button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Page>
+        </>
     }
 }
 export default SingIn;

@@ -1,10 +1,11 @@
 import React from "react";
 import arrow from "../resources/arrow.png";
-import styles from "../css/signin.css";
 import wavesDesktop from "../resources/desktopSIngIn.svg";
 import wavesPhone from "../resources/phoneSingIn.svg";
+import HttpRequestSender from "./classes/HttpRequestSender";
+import Page from "./components/page"
+import "../css/singin.css";
 
-const ServerUrl = "http://localhost:8080/water_war/water";
 
 
 class SingUp extends React.Component {
@@ -48,37 +49,19 @@ class SingUp extends React.Component {
     }
 
     sendData = () => {
-        if(this.state.userpassword.localeCompare(this.state.userpasswordDup) === 0) {
-            let url = ServerUrl + '/register';
-        fetch(url, {
-            method: "POST",
-            mode:"cors",
-            credentials:"include",
-            headers: {
-              Accept: "text/plain ",
-              "Content-Type": "text/plain",
-            },
-            body:JSON.stringify({
-                username:this.state.username,
-                userpassword:this.state.userpassword
+        if(this.state.userpassword.localeCompare(this.state.userpasswordDup) === 0)
+            HttpRequestSender.sendRequest("POST","/register",{
+                    username:this.state.username,
+                    userpassword:this.state.userpassword
             })
-          }).then((response) => {
-            const cookies = document.cookie;
-            console.log("Cookies:" + toString(cookies));
-            return response.json()
-          })
-          .then( data => {
-            if(data!== null){
-                window.location.href = "http://localhost:3000/";
-            }else{
-                alert("Пользователь уже существует!")
-            }
-            return data;
-          }).catch((err) => {
-                console.log("Catched erroe");
-                console.log(err);
-             });
-        }else alert("passwords don't match");
+            .then((data)=>{
+                if(data!== null){
+                    window.location.href = "http://localhost:3000/";
+                }else{
+                    alert("Пользователь уже существует!")
+                }
+            })
+        else alert("passwords don't match");
         this.formReset();
     }
     componentDidMount() {
@@ -89,7 +72,7 @@ class SingUp extends React.Component {
         }else  waves.src=wavesPhone;
         window.addEventListener("resize", () => {
             let width = document.body.offsetWidth;
-            if(width != prevWidth){
+            if(width !== prevWidth){
                 prevWidth = width;
                 if(width > 801){
                     waves.src=wavesDesktop;
@@ -98,28 +81,32 @@ class SingUp extends React.Component {
         })
     }
     render(){
-        return <div className="wrapper main-wrapper">
-            <img id="waves" src={wavesDesktop}/>
-            <div className="wrapper column-wrapper main-section">
-                <h3 className="water">WATER</h3>
-                <div className="wrapper column-wrapper input-section">
-                    <div className="wrapper column-wrapper input-wrapper">
-                        <input id="userName" type="text" placeholder="Name" onChange={this.handleUserNameInput}/>
-                        <input id="password" type="password" placeholder="Password" onChange={this.handleUserPasswordInput}/>
-                        <input id="password-dup" type="password" placeholder="Password" onChange={this.handleUserPasswordDupInput}/>
+        return <>
+        <Page className="login">
+            <div className="wrapper main-wrapper">
+                <img id="waves" src={wavesDesktop}/>
+                <div className="wrapper column-wrapper main-section">
+                    <h3 className="water">WATER</h3>
+                    <div className="wrapper column-wrapper input-section">
+                        <div className="wrapper column-wrapper input-wrapper">
+                            <input id="userName" type="text" placeholder="Name" onChange={this.handleUserNameInput}/>
+                            <input id="password" type="password" placeholder="Password" onChange={this.handleUserPasswordInput}/>
+                            <input id="password-dup" type="password" placeholder="Password" onChange={this.handleUserPasswordDupInput}/>
+                        </div>
                     </div>
-                </div>
-                <div className="wrapper row-wrapper submit-section">
-                    <div className="wrapper column-wrapper sign-button-block">
-                        <p className="link big-link">Sing Up</p>
-                        <a className="link small-link" href="/">Sing In</a>
-                    </div>
-                    <div className="submit-wrapper">
-                        <button className="submit" onClick={this.sendData}><img src={arrow}/></button>
+                    <div className="wrapper row-wrapper submit-section">
+                        <div className="wrapper column-wrapper sign-button-block">
+                            <p className="link big-link">Sing Up</p>
+                            <a className="link small-link" href="/">Sing In</a>
+                        </div>
+                        <div className="submit-wrapper">
+                            <button className="submit" onClick={this.sendData}><img src={arrow}/></button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Page>
+        </>
     }
 }
 export default SingUp;

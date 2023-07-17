@@ -1,11 +1,10 @@
 import React from "react";
-import styles from "../css/chat.css";
 import sendIcon from "../resources/icons8-email-send-60.png"
 import returnIcon from "../resources/icons8-double-left-48.png"
 import Message from "./components/message";
-
-
-const ServerUrl = "http://localhost:8080/water_war/water";
+import HttpRequestSender from "./classes/HttpRequestSender";
+import Page from "./components/page"
+import "../css/chat.css"
 
 class Chat extends React.Component {
     state = {
@@ -17,28 +16,17 @@ class Chat extends React.Component {
     messageList = [];
 
     getMessages = () => {
-        let url = ServerUrl + '/chat';
-        fetch(url, {
-            method: "POST",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-              Accept: "text/plain",
-              "Content-Type": "text/plain",
-            },
-            body:JSON.stringify({
-                chatId: localStorage.getItem("chatId"),
-                lastMessageDate: localStorage.getItem("lastMessageDate")
-            })
+        HttpRequestSender.sendRequest("POST","/chat",{
+            chatId: localStorage.getItem("chatId"),
+            lastMessageDate: localStorage.getItem("lastMessageDate")
         })
-        .then((response) => response.json())
         .then((data) => {
             if(data!=null){
                 console.log(data);
                 console.log("Last message " + new Date(localStorage.getItem("lastMessageDate")).toString());
                 data.map(el =>{
                     localStorage.setItem("lastMessageDate",el.date);
-                    this.messageList.unshift(<Message key={el.id} from={el.sender.id == this.state.userId? "my" : "from"} name={el.sender.id == this.state.userId?  "" : el.sender.username} messageText={el.content} messageDate={el.date}/>)
+                    this.messageList.unshift(<Message key={el.id} from={el.sender.id === this.state.userId? "my" : "from"} name={el.sender.id === this.state.userId?  "" : el.sender.username} messageText={el.content} messageDate={el.date}/>)
                 })
                 this.setState({
                     userId: this.state.userId,
@@ -47,11 +35,8 @@ class Chat extends React.Component {
                 })
                 this.forceUpdate();
                 this.getMessages();
-            }
+            }else alert("Something went wrong!");
         })
-        .catch((err) => {
-          console.log(err);
-        });
     }
 
     handleMessage = (event) => {
@@ -64,37 +49,19 @@ class Chat extends React.Component {
 
     sendMessage = () => {
         let input = document.getElementById("message-input");
-        let url = ServerUrl + '/message';
-        fetch(url, {
-            method: "POST",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-              Accept: "text/plain ",
-              "Content-Type": "text/plain",
-            },
-            body:JSON.stringify(this.state)
-          })
-            .then((response) => response.json())
-            .then((data) => {
-                if(data!=null){
-                    input.value = "";
-                    this.setState({
-                        userId: localStorage.getItem("userId"),
-                        chatId: localStorage.getItem("chatId"),
-                        message: ""
-                    })
-                    this.forceUpdate();
-                }
-            })
-            .catch((err) => {
-                window.location.href = "/";
-                console.log("Erorr \n" + err);
-             });
-    }
 
-    messageWebSocketUpdater(){
-        //
+        HttpRequestSender.sendRequest("POST","/message",this.state)
+        .then((data) => {
+            if(data!=null){
+                input.value = "";
+                this.setState({
+                    userId: localStorage.getItem("userId"),
+                    chatId: localStorage.getItem("chatId"),
+                    message: ""
+                })
+                this.forceUpdate();
+            }else alert("Something went wrong!");
+        })
     }
 
     componentDidMount() {
@@ -107,21 +74,25 @@ class Chat extends React.Component {
         this.getMessages();
     }
     render() {
-        return <div className="wrapper main-wrapper">
-            <div className="wrapper row-wrapper header">
-                <a className="arrow" href="/chats"><img src={returnIcon}/></a>
-                <p className="chat-name">{localStorage.getItem("chatName")}</p>
-            </div>
-            <div className="wrapper column-wrapper message-list">
-                {this.messageList}
-            </div>
-            <div className="message-input">
-                <div className="wrapper row-wrapper">
-                    <input id="message-input" type="text" placeholder="Text.." name="text" onChange={this.handleMessage}/>
-                    <button type="submit" onClick={this.sendMessage}><img src={sendIcon}/></button>
+        return  <>
+        <Page className="chat"> 
+            <div className="wrapper main-wrapper">
+                <div className="wrapper row-wrapper header">
+                    <a className="arrow" href="/chats"><img src={returnIcon}/></a>
+                    <p className="chat-name">{localStorage.getItem("chatName")}</p>
+                </div>
+                <div className="wrapper column-wrapper message-list">
+                    {this.messageList}
+                </div>
+                <div className="message-input">
+                    <div className="wrapper row-wrapper">
+                        <input id="message-input" type="text" placeholder="Text.." name="text" onChange={this.handleMessage}/>
+                        <button type="submit" onClick={this.sendMessage}><img src={sendIcon}/></button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Page>
+        </>
     }
 }
 
