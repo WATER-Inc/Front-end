@@ -5,6 +5,7 @@ import HttpRequestSender from "../classes/HttpRequestSender";
 class CreateChat extends React.Component {
     state = {
         userId: "",
+        chatName: "",
     }
 
     chatNameHandler = (event) => {
@@ -28,20 +29,19 @@ class CreateChat extends React.Component {
         })
     }
     render() {
-            return 
-            <div className="overlay">
-            <div className="popup wrapper main-wrapper column-wrapper">
-                    <input id="chat-name" placeholder="Chat Name..." onChange={this.chatNameHandler}>
-
-                    </input>
-                    <button className="create-button" onClick={this.createChat}>
-                        Create
-                    </button>
-                    <button onClick={this.props.closeWindow}>
-                        Close
-                    </button>
-            </div>
-            </div>
+            return <>
+                <div className="overlay">
+                <div className="popup wrapper column-wrapper">
+                        <input id="chat-name-input" placeholder="Chat Name..." onChange={this.chatNameHandler}/>
+                        <button className="create-chat-button" onClick={this.createChat}>
+                            Create Chat
+                        </button>
+                        <button className="close-create-chat-dialog"onClick={this.props.closeWindow}>
+                            Close
+                        </button>
+                </div>
+                </div>
+            </>
     }
 }
 

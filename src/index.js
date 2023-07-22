@@ -7,6 +7,8 @@ import Chat from "./js/chat";
 import Chats from "./js/chats";
 import Test from "./js/test";
 import styles from "./css/style.css";
+import "./css/output.css"
+
 
 const container = document.getElementById('root');
 const root = ReactDOMClient.createRoot(container);

@@ -14,20 +14,18 @@
     font-size: 40px;
     margin: 40px 40px 0 40px;
 }
-input, input::placeholder{
+.input-section > input, input::placeholder{
     max-width: 300px;
     font-family: Roboto, Arial, sans-serif;
     font-weight: 800;
     font-size: 20px;
 }
-input{
+.input-section > input{
     color: #3F52B3;
-    outline: none;
-    border: none;
     border-bottom: 2px solid rgba(0,0,0,50%);
     margin: 10px 0 10px 0;
 }
-input::placeholder {
+.input-section > input::placeholder {
     color: #A5B0D8;
 }
 .main-section{

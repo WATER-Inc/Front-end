@@ -1,24 +1,29 @@
+.chats{
+    background-color: #5E79D1;
+}
+
 /* SEARCH BAR */
 
-.search-bar{
+.search-create-bar{
+    width: 100%;
+    background-color:grey;
     position: fixed;
     left: 50%;
     transform: translate(-50%);
+    padding: 15px;
 }
 
-.search-bar > form{
-    position: absolute;
-    width: min(90vw,800px);
-    height: 75px;
+.search-create-bar > form{
+    width: min(60%,800px);
+    height: 50px;
     top: 25px;
     background-color: white;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 20px;
-    border: black solid 2px;
     justify-content: space-around;
 }
-.search-bar > form > input{
+.search-create-bar > form > input{
     font-family: Roboto, Arial, sans-serif;
     font-size: 30px;
     color: #3F52B3;
@@ -26,10 +31,17 @@
     border: none;
 }
 
-.search-bar > form > button{
+.search-create-bar > form > button{
+    height: 50px;
+    width: 50px;
+    border-radius: 0 20px 20px 0;
     background-color: white;
     outline: none;
     border: none;
+}
+
+.search-create-bar > form > button > img{
+    height: 30px;
 }
 
 /* CHAT LIST*/
@@ -110,8 +122,6 @@
     position: absolute;
     height: 100vh;
     width: 100vw;
-    background-color: black;
-    opacity: 0.5;
     z-index: 2;
 }
 
@@ -123,6 +133,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    padding: 20px;
+    border-radius: 20px;
 }
 
 .chat-name::placeholder{

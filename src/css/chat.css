@@ -83,7 +83,7 @@
     border: none;
 }
 
-.header{
+/* .header{
     position: fixed;
     top: 0;
     height: min(10vh,100px);
@@ -93,7 +93,7 @@
 }
 .header > .arrow{
     margin-left: 20px;
-}
+} */
 .chat-img{
     border-radius: 100%;
     background-color: white;

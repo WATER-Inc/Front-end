@@ -1,14 +1,11 @@
 import React from "react";
-import searchIcon from "../resources/icons8-find-67.png"
-import chatsIcon from "../resources/icons8-comments-96.png"
-import userIcon from "../resources/icons8-person-64.png"
-import addChatIcon from "../resources/icons8-plus-100.png"
-import logoutIcon from "../resources/icons8-logout-100.png"
 import HttpRequestSender from "./classes/HttpRequestSender";
 import ChatLink from "./components/chatlink";
 import CreateChat from "./components/createChat";
 import Page from "./components/page";
 import "../css/chats.css"
+import ChatsNav from "./components/chatsNav";
+import ChatsFooter from "./components/chatsFooter";
 
 
 
@@ -76,34 +73,14 @@ class Chats extends React.Component {
     render() {
         return <>
         <Page className="chats">
-            <div>
                 { this.visibleCreateChat && <CreateChat closeWindow={this.closeCreateChat}/>}
-                <div className="search-bar">
-                    <form className="wrapper row-wrapper">
-                        <input type="text" placeholder="Search.." name="search" onChange={this.searchHandler}/>
-                        <button type="submit"><img src={searchIcon}/></button>
-                    </form>
-                </div>
+                <ChatsNav/>
                 <div className="wrapper column-wrapper chat-list">
                     {this.state.chatList.filter(el => {
                         return (el.props.chatName.indexOf(this.state.searchText) === 0)
                     })}
                 </div>
-                <div className="menu-section wrapper row-wrapper">
-                    <button id="chats-button" className="menu-button" onClick={this.openChats}>
-                        <img src={chatsIcon}></img>
-                    </button>
-                    <button id="users-button" className="menu-button" onClick={this.openUsers}>
-                        <img src={userIcon}></img>
-                    </button>
-                    <button id="add-chat-button" className="menu-button" onClick={this.openCreateChat}>
-                        <img src={addChatIcon}></img>
-                    </button>
-                    <button id="logout-button" className="menu-button" onClick={this.logOut}>
-                        <img src={logoutIcon}></img>
-                    </button>
-                </div>
-            </div>
+                <ChatsFooter/>
         </Page>
         </>
     }
