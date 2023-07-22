@@ -2,8 +2,21 @@ import React from "react";
 import chatsIcon from "../../resources/icons8-comments-96.png"
 import userIcon from "../../resources/icons8-person-64.png"
 import logoutIcon from "../../resources/icons8-logout-100.png"
+import HttpRequestSender from "../classes/HttpRequestSender";
 
 class ChatsFooter extends React.Component {
+
+    logOut = () => {
+        HttpRequestSender.sendRequest("POST","/logout",{})
+        .then((data) => {
+            if(data!=null){
+                localStorage.setItem("lastMessageDate",0);
+                localStorage.setItem("chatId",-1);
+                localStorage.setItem("userId",-1);
+                window.location.href = "/";
+            }else alert("Something went wrong!");
+        })
+    }
 
     render(){
         return <>

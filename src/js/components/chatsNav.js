@@ -6,15 +6,17 @@ class ChatsNav extends React.Component {
 
     render(){
         return <>
-            <div className="w-full fixed rounded-b-3xl px-10 top-0 h-36 bg-blue-100 flex justify-between items-center pb-10">
-                <div className="flex flex-row items-center">
-                    <input className="h-14 text-blue-800 text-xl font-mono rounded-l-full bg-white px-8" type="text" placeholder="Chat Name"/>
-                    <button className="h-14 w-14 bg-white rounded-r-full">
-                        <img className="h-12 p-1" src={searchChatIcon}/>
-                    </button>
+            <div className="w-full fixed rounded-b-3xl px-10 top-0 h-36 bg-custom-blue-200 flex items-center pb-10">
+                <div className="flex basis-2/3 flex-row items-center justify-between">
+                    <div className="flex items-center h-14 bg-white rounded-full group">
+                        <input className="w-[0px] h-12 bg-none text-blue-800 text-xl group-hove:w-[200px] group-hover:pl-8 font-mono  duration-100" type="text" placeholder="Chat Name"/>
+                        <button className="h-14 w-14">
+                            <img className="h-10 w-10 m-none" src={searchChatIcon}/>
+                        </button>
+                    </div>
+                    <p className="text-3xl font-mono text-blue-800">Chats</p>
                 </div>
-                <p className="text-3xl font-mono text-blue-800">Chats</p>
-                <button className="" id="create-chat-button">
+                <button className="basis-1/3" id="create-chat-button" onClick={this.props.openCreateChat}>
                     <img className="h-12" src={addChatIcon}/>
                 </button>
             </div>

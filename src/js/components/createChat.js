@@ -32,7 +32,7 @@ class CreateChat extends React.Component {
             return <>
                 <div className="overlay">
                 <div className="popup wrapper column-wrapper">
-                        <input id="chat-name-input" placeholder="Chat Name..." onChange={this.chatNameHandler}/>
+                        <input id="chat-name-input w-[100px] h-16" placeholder="Chat Name..." onChange={this.chatNameHandler}/>
                         <button className="create-chat-button" onClick={this.createChat}>
                             Create Chat
                         </button>

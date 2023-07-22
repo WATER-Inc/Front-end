@@ -41,19 +41,6 @@ class Chats extends React.Component {
             searchText: event.target.value
         })
     }
-
-    logOut = () => {
-        HttpRequestSender.sendRequest("POST","/logout",{})
-        .then((data) => {
-            if(data!=null){
-                localStorage.setItem("lastMessageDate",0);
-                localStorage.setItem("chatId",-1);
-                localStorage.setItem("userId",-1);
-                window.location.href = "/";
-            }else alert("Something went wrong!");
-        })
-    }
-
     getChats = function () {
         HttpRequestSender.sendRequest("POST","/chats",{})
         .then((data) => {
@@ -74,11 +61,13 @@ class Chats extends React.Component {
         return <>
         <Page className="chats">
                 { this.visibleCreateChat && <CreateChat closeWindow={this.closeCreateChat}/>}
-                <ChatsNav/>
-                <div className="wrapper column-wrapper chat-list">
-                    {this.state.chatList.filter(el => {
-                        return (el.props.chatName.indexOf(this.state.searchText) === 0)
-                    })}
+                <ChatsNav openCreateChat={this.openCreateChat}/>
+                <div className="h-full w-full overflow-y-scroll no-scrollbar bg-custom-blue-400">
+                    <div className="flex flex-col pt-36 pb-36">
+                        {this.state.chatList.filter(el => {
+                            return (el.props.chatName.indexOf(this.state.searchText) === 0)
+                        })}
+                    </div>
                 </div>
                 <ChatsFooter/>
         </Page>
