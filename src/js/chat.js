@@ -1,9 +1,11 @@
 import React from "react";
 import sendIcon from "../resources/icons8-email-send-60.png"
 import returnIcon from "../resources/icons8-double-left-48.png"
+import addUserIcon from "../resources/icons8-plus-100.png"
 import Message from "./components/message";
 import HttpRequestSender from "./classes/HttpRequestSender";
 import Page from "./components/page"
+import UserAddDialog from "./components/UserAddDialog";
 import "../css/chat.css"
 
 class Chat extends React.Component {
@@ -12,6 +14,8 @@ class Chat extends React.Component {
         chatId: "",
         message: "",
     }
+
+    userDialog = false;
 
     messageList = [];
 
@@ -47,6 +51,16 @@ class Chat extends React.Component {
         })
     }
 
+    openAddUser = () => {
+        this.userDialog = true;
+        this.forceUpdate();
+    }
+
+    closeAddUser = () => {
+        this.userDialog = false;
+        this.forceUpdate();
+    }
+
     sendMessage = () => {
         let input = document.getElementById("message-input");
 
@@ -76,10 +90,14 @@ class Chat extends React.Component {
     render() {
         return  <>
         <Page className="chat"> 
-            <div className="wrapper main-wrapper">
+            {this.userDialog && <UserAddDialog close={this.closeAddUser}/>}
+            <div className="flex w-full flex-col">
                 <div className="wrapper row-wrapper header">
                     <a className="arrow" href="/chats"><img src={returnIcon}/></a>
                     <p className="chat-name">{localStorage.getItem("chatName")}</p>
+                    <button className="basis-1/3" id="create-chat-button" onClick={this.openAddUser}>
+                        <img className="h-12" src={addUserIcon}/>
+                    </button>
                 </div>
                 <div className="wrapper column-wrapper message-list">
                     {this.messageList}

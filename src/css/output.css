@@ -686,12 +686,12 @@ video {
   width: 0px;
 }
 
-.w-full {
-  width: 100%;
-}
-
 .w-\[100px\] {
   width: 100px;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .basis-1\/3 {

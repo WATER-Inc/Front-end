@@ -2,21 +2,23 @@ import React from "react";
 import HttpRequestSender from "../classes/HttpRequestSender";
 
 
-class CreateChat extends React.Component {
+class UserAddDialog extends React.Component {
     state = {
-        userId: "",
-        chatName: "",
+        username: "",
+        userpassword: "-nopassword-",
+        chatId: "",
+        roleId: "1",
     }
 
-    chatNameHandler = (event) => {
+    userNameHandler = (event) => {
         this.setState({
-            chatName: event.target.value,
+            username: event.target.value,
         })
         console.log(event.target.value);
     }
 
-    createChat = () => {
-        HttpRequestSender.sendRequest("POST","/chats/create",this.state)
+    addUser = () => {
+        HttpRequestSender.sendRequest("POST","/chat/add/user",this.state)
         .then((data) => {
             if(data!=null){
 
@@ -26,18 +28,18 @@ class CreateChat extends React.Component {
 
     componentDidMount() {
         this.setState({
-            userId: localStorage.getItem("userId"),
+            chatId: localStorage.getItem("chatId"),
         })
     }
     render() {
             return <>
                 <div className="overlay">
                 <div className="popup wrapper column-wrapper">
-                        <input id="chat-name-input w-[100px] h-16" placeholder="Chat Name..." onChange={this.chatNameHandler}/>
-                        <button className="create-chat-button" onClick={this.createChat}>
+                        <input id="chat-name-input w-[100px] h-16" placeholder="User Name..." onChange={this.userNameHandler}/>
+                        <button className="create-chat-button" onClick={this.addUser}>
                             Create Chat
                         </button>
-                        <button className="close-create-chat-dialog"onClick={this.props.closeWindow}>
+                        <button className="close-create-chat-dialog"onClick={this.props.close}>
                             Close
                         </button>
                 </div>
@@ -46,4 +48,4 @@ class CreateChat extends React.Component {
     }
 }
 
-export default CreateChat;
+export default UserAddDialog;
