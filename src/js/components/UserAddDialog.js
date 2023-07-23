@@ -5,9 +5,8 @@ import HttpRequestSender from "../classes/HttpRequestSender";
 class UserAddDialog extends React.Component {
     state = {
         username: "",
-        userpassword: "-nopassword-",
         chatId: "",
-        roleId: "1",
+        roleTitle: "user",
     }
 
     userNameHandler = (event) => {
