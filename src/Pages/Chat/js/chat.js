@@ -1,10 +1,9 @@
 import React from "react";
-import sendIcon from "../resources/icons8-email-send-60.png"
-import returnIcon from "../resources/icons8-double-left-48.png"
-import addUserIcon from "../resources/icons8-plus-100.png"
 import Message from "./components/message";
-import HttpRequestSender from "./classes/HttpRequestSender";
-import Page from "./components/page"
+import ChatNav from "./components/chatNav";
+import MessageInput from "./components/messageInput";
+import HttpRequestSender from "../../../js/classes/HttpRequestSender";
+import Page from "../../../js/components/page"
 import UserAddDialog from "./components/UserAddDialog";
 import "../css/chat.css"
 
@@ -30,7 +29,7 @@ class Chat extends React.Component {
                 console.log("Last message " + new Date(localStorage.getItem("lastMessageDate")).toString());
                 data.map(el =>{
                     localStorage.setItem("lastMessageDate",el.date);
-                    this.messageList.unshift(<Message key={el.id} from={el.sender.id === this.state.userId? "my" : "from"} name={el.sender.id === this.state.userId?  "" : el.sender.username} messageText={el.content} messageDate={el.date}/>)
+                    this.messageList.push(<Message key={el.id} classes={el.sender.id === this.state.userId? "group my" : "group from"} name={el.sender.id === this.state.userId?  "" : el.sender.username} messageText={el.content} messageDate={el.date}/>)
                 })
                 this.setState({
                     userId: this.state.userId,
@@ -39,7 +38,7 @@ class Chat extends React.Component {
                 })
                 this.forceUpdate();
                 this.getMessages();
-            }else alert("Something went wrong!");
+            }else console.log("couldn't get messages");
         })
     }
 
@@ -74,8 +73,26 @@ class Chat extends React.Component {
                     message: ""
                 })
                 this.forceUpdate();
-            }else alert("Something went wrong!");
+            }else console.log("Couldn't send messages!");
         })
+    }
+
+    listScroll = () => {
+        let list = document.getElementById("scrollable-list");
+        let maxPos = 0;
+        let minPos = window.innerHeight - 200 - list.getBoundingClientRect().height;
+        let currentPos = minPos;
+        window.requestAnimationFrame(() => {
+            list.style.transform = `translateY(-${minPos}px)`;
+        })
+        window.addEventListener("wheel", (event) => {
+            currentPos -= event.deltaY/4;
+            currentPos = Math.max(maxPos, currentPos);
+            currentPos = Math.min(minPos, currentPos);
+            window.requestAnimationFrame(() => {
+                list.style.transform = `translateY(-${currentPos}px)`;
+            })
+        }) 
     }
 
     componentDidMount() {
@@ -85,30 +102,20 @@ class Chat extends React.Component {
             chatId: localStorage.getItem("chatId"),
             message: ""
         })
+        this.listScroll();
         this.getMessages();
     }
     render() {
         return  <>
         <Page className="chat"> 
             {this.userDialog && <UserAddDialog close={this.closeAddUser}/>}
-            <div className="flex w-full flex-col">
-                <div className="wrapper row-wrapper header">
-                    <a className="arrow" href="/chats"><img src={returnIcon}/></a>
-                    <p className="chat-name">{localStorage.getItem("chatName")}</p>
-                    <button className="basis-1/3" id="create-chat-button" onClick={this.openAddUser}>
-                        <img className="h-12" src={addUserIcon}/>
-                    </button>
-                </div>
-                <div className="wrapper column-wrapper message-list">
+            <ChatNav openAddUser={this.openAddUser}/>
+            <div className="w-screen h-screen overflow-hidden bg-custom-blue-100">
+                <div id="scrollable-list" className="flex flex-col pt-16 pb-16">
                     {this.messageList}
                 </div>
-                <div className="message-input">
-                    <div className="wrapper row-wrapper">
-                        <input id="message-input" type="text" placeholder="Text.." name="text" onChange={this.handleMessage}/>
-                        <button type="submit" onClick={this.sendMessage}><img src={sendIcon}/></button>
-                    </div>
-                </div>
             </div>
+            <MessageInput sendMessage={this.sendMessage} handleMessage={this.handleMessage}/>
         </Page>
         </>
     }

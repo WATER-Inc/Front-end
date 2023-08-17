@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import * as ReactDOMClient from 'react-dom/client';
-import SingUp from "./js/singup";
-import SingIn from "./js/singin";
-import Chat from "./js/chat";
-import Chats from "./js/chats";
+import Registration from "./Pages/Registration/js/registration";
+import Login from "./Pages/Login/js/login";
+import Chat from "./Pages/Chat/js/chat";
+import Chats from "./Pages/Chats/js/chats";
 import Test from "./js/test";
 import styles from "./css/style.css";
 import "./css/output.css"
@@ -17,8 +17,8 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<SingIn/>}/>
-                <Route path="/singup" element={<SingUp/>}/>
+                <Route path="/" element={<Login/>}/>
+                <Route path="/singup" element={<Registration/>}/>
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/chats" element={<Chats/>}/>
                 <Route path="/test" element={<Test/>}/>

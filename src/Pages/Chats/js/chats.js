@@ -1,9 +1,8 @@
 import React from "react";
-import HttpRequestSender from "./classes/HttpRequestSender";
-import ChatLink from "./components/chatlink";
+import HttpRequestSender from "../../../js/classes/HttpRequestSender"
+import ChatLink from "./components/chatLink";
 import CreateChat from "./components/createChat";
-import Page from "./components/page";
-import "../css/chats.css"
+import Page from "../../../js/components/page";
 import ChatsNav from "./components/chatsNav";
 import ChatsFooter from "./components/chatsFooter";
 
@@ -18,10 +17,10 @@ class Chats extends React.Component {
         searchText: ""
     }
 
-    openChat = (element) => {
+    openChat = (chatId,chatName) => {
         localStorage.setItem("lastMessageDate",0);
-        localStorage.setItem("chatId",element.target.getAttribute("id"));
-        localStorage.setItem("chatName",element.target.getAttribute("name"))
+        localStorage.setItem("chatId",chatId);
+        localStorage.setItem("chatName",chatName);
         window.location.href = "/chat";
     }
 
@@ -54,7 +53,7 @@ class Chats extends React.Component {
     };
 
     componentDidMount() {
-        this.getChats();
+        this.getChats(); 
     }
 
     render() {
@@ -62,8 +61,8 @@ class Chats extends React.Component {
         <Page className="chats">
                 { this.visibleCreateChat && <CreateChat closeWindow={this.closeCreateChat}/>}
                 <ChatsNav openCreateChat={this.openCreateChat}/>
-                <div className="h-full w-full overflow-y-scroll no-scrollbar bg-custom-blue-400">
-                    <div className="flex flex-col pt-36 pb-36">
+                <div className="h-screen w-full overflow-y-scroll no-scrollbar bg-white">
+                    <div className="flex flex-col pt-36 pb-28">
                         {this.state.chatList.filter(el => {
                             return (el.props.chatName.indexOf(this.state.searchText) === 0)
                         })}

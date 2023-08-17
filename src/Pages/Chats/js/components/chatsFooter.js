@@ -1,8 +1,8 @@
 import React from "react";
-import chatsIcon from "../../resources/icons8-comments-96.png"
-import userIcon from "../../resources/icons8-person-64.png"
-import logoutIcon from "../../resources/icons8-logout-100.png"
-import HttpRequestSender from "../classes/HttpRequestSender";
+import chatsIcon from "../../../../resources/icons8-comments-96.png"
+import userIcon from "../../../../resources/icons8-person-64.png"
+import logoutIcon from "../../../../resources/icons8-logout-100.png"
+import HttpRequestSender from "../../../../js/classes/HttpRequestSender";
 
 class ChatsFooter extends React.Component {
 
@@ -20,16 +20,15 @@ class ChatsFooter extends React.Component {
 
     render(){
         return <>
-            <div className="fixed w-full bg-white bottom-0 h-32 flex flex-col">
-                <div className="h-16 bg-transparent"></div>
-                <div className="relative h-16 flex flex-row justify-around p-10">
-                    <button id="chats-button" className="menu-button" onClick={this.openChats}>
+            <div className="fixed w-full bg-white bottom-0 h-24 flex flex-col justify-center shadow-top">
+                <div className="w-full h-12 flex flex-row justify-around items-center">
+                    <button id="chats-button" className="h-10 w-10 opacity-50 hover:opacity-100" onClick={this.openChats}>
                         <img src={chatsIcon}></img>
                     </button>
-                    <button id="users-button" className="menu-button" onClick={this.openUsers}>
+                    <button id="users-button" className="h-10 w-10 opacity-50 hover:opacity-100" onClick={this.openUsers}>
                         <img src={userIcon}></img>
                     </button>
-                    <button id="logout-button" className="menu-button" onClick={this.logOut}>
+                    <button id="logout-button" className="h-10 w-10 opacity-50 hover:opacity-100" onClick={this.logOut}>
                         <img src={logoutIcon}></img>
                     </button>
                 </div>
