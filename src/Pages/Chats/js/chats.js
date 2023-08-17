@@ -36,6 +36,7 @@ class Chats extends React.Component {
     }
 
     searchHandler = (event) => {
+        console.log(event.target.value);
         this.setState({
             searchText: event.target.value
         })
@@ -60,7 +61,7 @@ class Chats extends React.Component {
         return <>
         <Page className="chats">
                 { this.visibleCreateChat && <CreateChat closeWindow={this.closeCreateChat}/>}
-                <ChatsNav openCreateChat={this.openCreateChat}/>
+                <ChatsNav openCreateChat={this.openCreateChat} searchHandler={this.searchHandler}/>
                 <div className="h-screen w-full overflow-y-scroll no-scrollbar bg-white">
                     <div className="flex flex-col pt-36 pb-28">
                         {this.state.chatList.filter(el => {

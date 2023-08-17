@@ -16,7 +16,7 @@ class ChatsNav extends React.Component {
                 <div className=" py-2 w-full flex flex-row justify-center">
                     <div className="w-full max-w-[500px] md:max-w-none bg-gray-200 flex items-center py-2 px-4 rounded-xl">
                         <img className="h-6 w-10 inline px-2" src={searchChatIcon}/>
-                        <input className=" md:w-full tracking-wide text-custom-blue-500 font-MuseoModerno bg-gray-200 placeholder:text-gray-500" type="text" placeholder="Search..."/>
+                        <input className=" md:w-full tracking-wide text-custom-blue-500 font-MuseoModerno bg-gray-200 placeholder:text-gray-500" type="text" placeholder="Search..." onChange={this.props.searchHandler}/>
                     </div>
                 </div>
             </div>
