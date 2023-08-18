@@ -6,11 +6,11 @@ class ChatNav extends React.Component {
 
     render(){
         return <>
-            <div className="flex flex-row fixed z-10 shadow-lg top-0 w-screen h-16 items-center bg-white">
-                <a className="arrow" href="/chats"><img src={returnIcon}/></a>
+            <div className="flex flex-row fixed z-10 shadow-lg top-0 w-screen h-16 items-center justify-between bg-white">
+                <a className="px-2" href="/chats"><img src={returnIcon}/></a>
                 <p className="text-2xl font-MuseoModerno text-custom-blue-400 uppercase tracking-widest px-4 py-2">{localStorage.getItem("chatName")}</p>
-                <button className="basis-1/3" id="create-chat-button" onClick={this.props.openAddUser}>
-                    <img className="h-12" src={addUserIcon}/>
+                <button className="px-2" id="create-chat-button" onClick={this.props.openAddUser}>
+                    <img className="h-12 inline" src={addUserIcon}/>
                 </button>
             </div>
         </>

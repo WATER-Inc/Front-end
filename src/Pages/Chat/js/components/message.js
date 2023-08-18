@@ -14,7 +14,7 @@ class Message extends React.Component{
                     <div className="font-MuseoModerno group-[.from]:text-white">
                         <p>{this.props.name}</p>
                     </div>
-                    <p className="p-2.5 group-[.my]:text-custom-blue-400 group-[.from]:text-white">{this.props.messageText}</p>
+                    <p className="p-2.5 group-[.my]:text-custom-blue-400 group-[.from]:text-white break-all whitespace-normal">{this.props.messageText}</p>
                     <p className="p-2.5 group-[.my]:text-custom-blue-400 group-[.from]:text-white">{this.getTime(new Date(this.props.messageDate))}</p>
                 </div>
             </div>

@@ -18,6 +18,35 @@ class Chat extends React.Component {
 
     messageList = [];
 
+    listScrollData = {
+        minPos: 0,
+        maxPos: 0,
+        currentPos: 0,
+        list: null,
+    }
+
+    scrollCalculate = () => {
+        this.listScrollData.list = document.getElementById("scrollable-list");
+        this.listScrollData.maxPos = 0;
+        this.listScrollData.minPos = window.innerHeight > this.listScrollData.list.getBoundingClientRect().height ? 200 : window.innerHeight - this.listScrollData.list.getBoundingClientRect().height;
+        this.listScrollData.currentPos = this.listScrollData.minPos;
+        window.requestAnimationFrame(() => {
+            this.listScrollData.list.style.transform = `translateY(${this.listScrollData.minPos}px)`;
+        })
+    }
+
+    listScroll = (event) => {
+            console.log("minPos : " + this.listScrollData.minPos,"maxPos : " +this.listScrollData.maxPos);
+            this.listScrollData.currentPos += event.deltaY/4;
+            console.log(this.listScrollData.currentPos);
+            this.listScrollData.currentPos = Math.min(this.listScrollData.maxPos, this.listScrollData.currentPos);
+            this.listScrollData.currentPos = Math.max(this.listScrollData.minPos, this.listScrollData.currentPos);
+            window.requestAnimationFrame(() => {
+                this.listScrollData.list.style.transform = `translateY(${this.listScrollData.currentPos}px)`;
+            })
+    }
+
+
     getMessages = () => {
         HttpRequestSender.sendRequest("POST","/chat",{
             chatId: localStorage.getItem("chatId"),
@@ -36,7 +65,7 @@ class Chat extends React.Component {
                     chatId: this.state.chatId,
                     message: this.state.message,
                 })
-                this.forceUpdate();
+                this.rerender();
                 this.getMessages();
             }else console.log("couldn't get messages");
         })
@@ -52,12 +81,12 @@ class Chat extends React.Component {
 
     openAddUser = () => {
         this.userDialog = true;
-        this.forceUpdate();
+        this.rerender();
     }
 
     closeAddUser = () => {
         this.userDialog = false;
-        this.forceUpdate();
+        this.rerender();
     }
 
     sendMessage = () => {
@@ -72,27 +101,9 @@ class Chat extends React.Component {
                     chatId: localStorage.getItem("chatId"),
                     message: ""
                 })
-                this.forceUpdate();
+                this.rerender();
             }else console.log("Couldn't send messages!");
         })
-    }
-
-    listScroll = () => {
-        let list = document.getElementById("scrollable-list");
-        let maxPos = 0;
-        let minPos = window.innerHeight - 200 - list.getBoundingClientRect().height;
-        let currentPos = minPos;
-        window.requestAnimationFrame(() => {
-            list.style.transform = `translateY(-${minPos}px)`;
-        })
-        window.addEventListener("wheel", (event) => {
-            currentPos -= event.deltaY/4;
-            currentPos = Math.max(maxPos, currentPos);
-            currentPos = Math.min(minPos, currentPos);
-            window.requestAnimationFrame(() => {
-                list.style.transform = `translateY(-${currentPos}px)`;
-            })
-        }) 
     }
 
     componentDidMount() {
@@ -102,9 +113,15 @@ class Chat extends React.Component {
             chatId: localStorage.getItem("chatId"),
             message: ""
         })
-        this.listScroll();
         this.getMessages();
+        window.addEventListener("wheel", this.listScroll);
+        window.addEventListener("resize",this.scrollCalculate);
     }
+
+    rerender(){
+        this.forceUpdate(this.scrollCalculate);
+    }
+
     render() {
         return  <>
         <Page className="chat"> 
