@@ -5,7 +5,7 @@ import Registration from "./Pages/Registration/js/registration";
 import Login from "./Pages/Login/js/login";
 import Chat from "./Pages/Chat/js/chat";
 import Chats from "./Pages/Chats/js/chats";
-import Test from "./js/test";
+import Test from "./Pages/Test/test";
 import styles from "./css/style.css";
 import "./css/output.css"
 
@@ -21,7 +21,7 @@ export default function App() {
                 <Route path="/singup" element={<Registration/>}/>
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/chats" element={<Chats/>}/>
-                {/* <Route path="/test" element={<Test/>}/> */}
+                <Route path="/test" element={<Test/>}/>
             </Routes>
         </BrowserRouter>
     );
