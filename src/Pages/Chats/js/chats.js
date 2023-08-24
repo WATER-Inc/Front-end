@@ -5,6 +5,7 @@ import CreateChat from "./components/createChat";
 import Page from "../../../js/components/page";
 import ChatsNav from "./components/chatsNav";
 import ChatsFooter from "./components/chatsFooter";
+import WebsocketSender from "../../../js/classes/WebsocketSender";
 
 
 
@@ -53,14 +54,21 @@ class Chats extends React.Component {
         })
     };
 
+    ws;
+    sendWsMessage = (e) => {
+        this.ws.send("Мысля");
+    }
     componentDidMount() {
         this.getChats(); 
+        this.ws = new WebsocketSender();
+        this.ws.tryConnect();
     }
 
     render() {
         return <>
         <Page className="chats">
                 { this.visibleCreateChat && <CreateChat closeWindow={this.closeCreateChat}/>}
+                <button  className="absolute z-40 w-full h-10 bg-red-100" onClick={this.sendWsMessage}>Отправь мыслю</button>
                 <ChatsNav openCreateChat={this.openCreateChat} searchHandler={this.searchHandler}/>
                 <div className="h-screen w-full overflow-y-scroll no-scrollbar bg-white">
                     <div className="flex flex-col pt-36 pb-28">
