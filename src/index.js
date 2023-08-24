@@ -21,7 +21,7 @@ export default function App() {
                 <Route path="/singup" element={<Registration/>}/>
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/chats" element={<Chats/>}/>
-                <Route path="/test" element={<Test/>}/>
+                {/* <Route path="/test" element={<Test/>}/> */}
             </Routes>
         </BrowserRouter>
     );

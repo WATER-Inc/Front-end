@@ -36,9 +36,7 @@ class Chat extends React.Component {
     }
 
     listScroll = (event) => {
-            console.log("minPos : " + this.listScrollData.minPos,"maxPos : " +this.listScrollData.maxPos);
             this.listScrollData.currentPos += event.deltaY/4;
-            console.log(this.listScrollData.currentPos);
             this.listScrollData.currentPos = Math.min(this.listScrollData.maxPos, this.listScrollData.currentPos);
             this.listScrollData.currentPos = Math.max(this.listScrollData.minPos, this.listScrollData.currentPos);
             window.requestAnimationFrame(() => {

@@ -32,7 +32,7 @@ class CreateChat extends React.Component {
     }
     render() {
             return <>
-                <div className="absolute z-40 h-screen w-screen bg-slate-500 opacity-40"/>
+                <div className="absolute z-40 h-screen w-screen backdrop-blur-sm"/>
                 <div className="absolute rounded-xl p-4 z-50 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[300px] h-[35vh] flex flex-col items-stretch justify-around bg-custom-blue-400">
                     <div className="flex h-full w-full flex-col items-center">
                         <div className="m-4">
